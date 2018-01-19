@@ -1,0 +1,56 @@
+.dashlane {
+	display: flex;
+	flex-direction: column;
+	font-family: "Open Sans", sans-serif;
+	height: 100vh;
+}
+
+.dashlane-section {
+}
+
+.--logo {
+	background: linear-gradient(
+		to left bottom,
+		#0b5061 0,
+		#007c97 38%,
+		#007c97 60%,
+		#0b5061
+	);
+	height: 100%;
+	width: 100%;
+}
+
+.--logo-svg {
+	width: 200px;
+}
+
+.--form {
+	height: 100%;
+	width: 100%;
+}
+
+.--wrapper {
+	width: 50%;
+	margin: 0 auto;
+	top: 30%;
+}
+
+.--headline {
+	color: #474747;
+}
+
+.--fields {
+	color: #939393;
+	display: flex;
+	flex-direction: column;
+}
+
+._hidden {
+	display: none;
+}
+
+@media (min-width: 450px) {
+	.dashlane {
+		flex-direction: row;
+	}
+}
