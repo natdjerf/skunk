@@ -1,25 +1,29 @@
 const db = firebase.database();
 
+const dashlaneBody = document.getElementsByClassName("dashlane")[0];
+const dashlane404 = document.getElementsByClassName("dashlane-404")[0];
+const dashlane404Message = document.getElementsByClassName(
+	"dashlane-404--message"
+)[0];
 const emailInput = document.getElementById("email-input");
-const passwordInput = document.getElementById("password-input");
 const submitButton = document.getElementById("submit-button");
 const errorMessage = document.getElementById("error-message");
-
-console.log({ emailInput });
-console.log({ passwordInput });
-console.log({ submitButton });
-
 const emailValue = () => emailInput.value;
 
-const onEmailInput = () => {
-	console.log("email");
+const onFieldInput = () => {
+	errorMessage.classList.add("_hidden");
 };
 
-const checkForPassword = () => !(passwordInput.value.length > 0);
+const validateEmailAddress = email =>
+	!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 
-const submitEmail = () =>
+const submitEmail = email =>
 	new Promise((resolve, reject) => {
-		resolve(console.log("emailSubmitted"));
+		resolve(
+			db.ref("emails").push({
+				"User Email": email
+			})
+		);
 	});
 
 const displayError = () => {
@@ -27,20 +31,19 @@ const displayError = () => {
 };
 
 const displaySuccess = () => {
-	console.log("success");
-	errorMessage.classList.add("_hidden");
+	dashlaneBody.classList.add("_hidden");
+	dashlane404.classList.remove("_hidden");
+	dashlane404Message.classList.remove("_hidden");
 };
 
 const onButtonClick = () => {
 	const email = emailValue();
-	const empty = checkForPassword();
+	const invalidEmail = validateEmailAddress(email);
 
-	if (empty) return displayError();
+	if (invalidEmail) return displayError();
 
 	submitEmail(email).then(displaySuccess);
-
-	console.log("submit", email);
 };
 
-emailInput.addEventListener("input", onEmailInput);
+emailInput.addEventListener("input", onFieldInput);
 submitButton.addEventListener("click", onButtonClick);
